@@ -18,6 +18,8 @@ armorstand {
     slot = "head"            # 穿戴槽位：head/chest/legs/feet/hand/offhand
     item = "..."             # 穿戴物品（遵循物品解析规范）
     life = 100               # 生命周期（tick），到时自动移除
+    name = "&e&l黄金守卫"     # 实体名称
+    nameVisible = true      # 是否显示名称(不填则默认为true)
     small = false            # 小型化
     marker = true            # 标记模式（无碰撞、命中箱极小，推荐开）
     
@@ -46,6 +48,8 @@ armorstand {
 | `at` | String? | `@self` | 生成位置；支持 `@self/@target/${var}/x,y,z/~相对` |
 | `slot` | String | `head` | 穿戴槽位：`head/chest/legs/feet/hand/offhand`<br/>（内部映射到 `EquipmentSlot`<br/>） |
 | `item` | String? | `null` | 穿戴物品（你的 `parseItemStack(itemSpec)`<br/> 规则） |
+| `name` | String? | `null` | 实体名称 |
+| `nameVisible` | Boolean | `true` | 是否显示名称 |
 | `life` | Long | `100` | 生存时长（tick），到时自动 `remove()` |
 | `small` | Boolean | `false` | 是否小型化（更迷你） |
 | `marker` | Boolean | `true` | 标记模式（无碰撞，命中箱极小，演出推荐开启） |
@@ -82,6 +86,14 @@ armorstand {
 armorstand {
   slot = "head"
   item = "player_head owner:\"YuaZer\""
+}
+# 自定义名称
+armor-stand {
+  at = "@self"
+  slot = "head"
+  item = "minecraft:carved_pumpkin"
+  name = "&e&l黄金守卫"
+  # nameVisible 默认为 true（只要写了 name 就会显示）
 }
 ```
 
@@ -180,7 +192,25 @@ seq {
     particle { type = "EXPLOSION_LARGE"; count = 2; at = "@self" }
 }
 ```
-
+### 7) 与预设轨迹联动（围绕玩家旋转，且显示编号）
+```plain
+# total=8 个盔甲架围绕玩家旋转一圈，每个都有编号名
+for { from = 0; to = 7; step = 1; var = "i" } {
+  armor-stand {
+    at = "@self"
+    preset = "orbit"
+    center = "@self"
+    radius = 2.2
+    duration = 40
+    revolutions = 1.0
+    index = ${i}
+    total = 8
+    name = "&b哨兵 #${i}"
+    nameVisible = true
+    life = 60
+  }
+}
+```
 
 
 > 更新: 2025-10-17 18:33:22  
