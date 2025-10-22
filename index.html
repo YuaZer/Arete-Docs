@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>Arete技能插件教程文档</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="Arete技能插件完整教程文档 - 声明式脚本驱动的Minecraft技能引擎">
+  <meta name="keywords" content="Arete,Minecraft,技能插件,Kether,TabooLib">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  <style>
+    /* 自定义样式优化 */
+    :root {
+      --theme-color: #42b983;
+      --sidebar-width: 280px;
+    }
+    
+    /* 侧边栏样式优化 */
+    .sidebar {
+      background-color: #fafafa;
+    }
+    
+    .sidebar-nav > ul > li > a {
+      font-weight: bold;
+      font-size: 16px;
+    }
+    
+    /* 标题emoji对齐 */
+    .sidebar-nav li a {
+      line-height: 1.8;
+    }
+    
+    /* 搜索框样式 */
+    .search {
+      margin-bottom: 20px;
+    }
+    
+    /* 代码块样式 */
+    .markdown-section pre > code {
+      border-radius: 4px;
+    }
+    
+    /* 目录样式 */
+    .page_toc {
+      position: fixed;
+      right: 20px;
+      top: 80px;
+      max-width: 250px;
+      max-height: 70vh;
+      overflow-y: auto;
+      padding: 10px;
+      border-left: 2px solid #42b983;
+      font-size: 14px;
+    }
+    
+    .page_toc p.title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #42b983;
+    }
+    
+    .page_toc .anchor {
+      display: block;
+      padding: 4px 0;
+      color: #666;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    
+    .page_toc .anchor:hover {
+      color: #42b983;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">加载中...</div>
+  <script>
+    window.$docsify = {
+      // 文档标题
+      name: 'Arete技能插件',
+      
+      // 仓库地址（如有可填写）
+      repo: '',
+      
+      // 首页文件
+      homepage: 'index.md',
+      
+      // 启用侧边栏
+      loadSidebar: true,
+      
+      // 侧边栏层级
+      subMaxLevel: 3,
+      
+      // 自动生成目录
+      auto2top: true,
+      
+      // 启用导航栏
+      loadNavbar: true,
+      
+      // 封面页
+      coverpage: false,
+      
+      // 切换页面后是否自动跳转到页面顶部
+      auto2top: true,
+      
+      // 启用搜索功能
+      search: {
+        maxAge: 86400000, // 过期时间，单位毫秒，默认一天
+        paths: 'auto',
+        placeholder: '🔍 搜索文档',
+        noData: '😞 找不到结果',
+        depth: 6,
+        hideOtherSidebarContent: false,
+        namespace: 'arete-docs',
+      },
+      
+      // 分页导航
+      pagination: {
+        previousText: '上一页',
+        nextText: '下一页',
+        crossChapter: true,
+        crossChapterText: true,
+      },
+      
+      // 字数统计
+      count: {
+        countable: true,
+        fontsize: '0.9em',
+        color: 'rgb(90,90,90)',
+        language: 'chinese'
+      },
+      
+      // 代码复制
+      copyCode: {
+        buttonText: '复制',
+        errorText: '错误',
+        successText: '已复制'
+      },
+      
+      // 页面目录
+      toc: {
+        tocMaxLevel: 4,
+        target: 'h2, h3, h4'
+      },
+      
+      // 外链打开方式
+      externalLinkTarget: '_blank',
+      
+      // 路由模式
+      routerMode: 'hash',
+      
+      // Markdown配置
+      markdown: {
+        smartypants: true,
+        renderer: {
+          code: function(code, lang) {
+            return this.origin.code.apply(this, arguments);
+          }
+        }
+      },
+      
+      // 404页面
+      notFoundPage: true,
+      
+      // 图片缩放
+      zoom: {
+        background: 'rgba(0,0,0,0.8)',
+        width: 'auto',
+        height: 'auto'
+      }
+    }
+  </script>
+  
+  <!-- Docsify核心 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+  
+  <!-- 全文搜索插件 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+  
+  <!-- 代码复制插件 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-copy-code@2"></script>
+  
+  <!-- 分页导航插件 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-pagination/dist/docsify-pagination.min.js"></script>
+  
+  <!-- 图片缩放插件 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
+  
+  <!-- Emoji支持 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/emoji.min.js"></script>
+  
+  <!-- 代码高亮 - YAML -->
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-yaml.min.js"></script>
+  
+  <!-- 代码高亮 - Java -->
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-java.min.js"></script>
+  
+  <!-- 代码高亮 - Kotlin -->
+  <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-kotlin.min.js"></script>
+  
+  <!-- 外链脚本 - 新标签打开 -->
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/external-script.min.js"></script>
+</body>
+</html>
