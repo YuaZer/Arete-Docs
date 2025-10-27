@@ -32,16 +32,18 @@ damage {
 ---
 
 ## 参数
-| 参数名 | 类型 | 默认值 | 说明 |
-| --- | --- | --- | --- |
-| `amount` | Double | `1.0` | 伤害值 |
-| `targetVar` | String? | `null` | **优先使用**。变量名指向 `Entity`<br/> 或 `Collection<Entity>` |
-| `target` | String? | `null` | `"pointer" / "self" / "target"` |
-| `at` | String? | _(解析为位置)_ | 用于 nearby 模式的中心，支持 `@self/@target/${var}/坐标` |
-| `rx` | Double | `4.0` | nearby 的 X 半径 |
-| `ry` | Double | `2.0` | nearby 的 Y 半径 |
-| `rz` | Double | `4.0` | nearby 的 Z 半径 |
-| `cause` | String? | `null` | 预留，用于你的扩展标记 |
+| 参数名          | 类型      | 默认值       | 说明                                                  |
+|--------------|---------|-----------|-----------------------------------------------------|
+| `amount`     | Double  | `1.0`     | 伤害值                                                 |
+| `targetVar`  | String? | `null`    | **优先使用**。变量名指向 `Entity`<br/> 或 `Collection<Entity>` |
+| `target`     | String? | `null`    | `"pointer" / "self" / "target"`                     |
+| `at`         | String? | _(解析为位置)_ | 用于 nearby 模式的中心，支持 `@self/@target/${var}/坐标`        |
+| `rx`         | Double  | `4.0`     | nearby 的 X 半径                                       |
+| `ry`         | Double  | `2.0`     | nearby 的 Y 半径                                       |
+| `rz`         | Double  | `4.0`     | nearby 的 Z 半径                                       |
+| `path`       | String? | `null`    | nurbs路径所有接触到的实体                                     |
+| `pathRadius` | Double  | `4.0`     | nurbs路径检测实体的体积                                      |
+| `cause`      | String? | `null`    | 预留，用于你的扩展标记                                         |
 
 
 解析顺序：先看 `targetVar` → 再看 `target` → 否则进入 **nearby** 模式（`at+rx/ry/rz`）。
