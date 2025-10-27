@@ -100,7 +100,6 @@ seq {
 ### ⚔️ 动态攻击演示（NURBS + 粒子 + 伤害）
 ```plain
 seq {
-  seq {
     nurbs {
       store = "slash"
       coord = "local"
@@ -124,7 +123,6 @@ seq {
       }
     }
   }
-}
 ```
 
 ---
