@@ -100,7 +100,7 @@ seq {
       for { times = 3 } {
         damage { amount = 3.0 targetVar = "lock" }
         velocity { x = 0 y = 0.35 z = -0.6 targetVar = "lock" add = true } # 连段后坐
-        delay 2
+        delay { tick = 2 }
       }
     }
     else { message { text = "&7没锁到目标，取消连击。" } }
