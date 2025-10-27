@@ -100,31 +100,29 @@ seq {
 ### ⚔️ 动态攻击演示（NURBS + 粒子 + 伤害）
 ```plain
 seq {
-  # 生成路径
-  nurbs {
-    store = "slash"
-    coord = "local"
-    at = "@self"
-    points = "0,0,0; 2,0.5,1; 4,0.5,0; 6,0,0"
-    precision = 1.2
-    equalSpacing = true
-  }
-
-  # 等待路径计算
-  delay { ticks = 2 }
-
-  # 播放粒子特效
-  particle {
-    type = "SWEEP_ATTACK"
-    count = 1
-    path = "slash"
-    step = 2
-    interval = 1
-  }
-
-  # 延迟执行伤害逻辑（模拟挥刀后命中）
-  delay { ticks = 10 } {
-    damage { target = "nearby"; rx = 2; ry = 1; rz = 2; amount = 8.0 }
+  seq {
+    nurbs {
+      store = "slash"
+      coord = "local"
+      at = "@self"
+      points = "6.00,0.00,0.00; 6.00,6.00,0.00; 0.00,6.00,0.00; -6.00,6.00,0.00; -6.00,0.00,0.00; -6.00,-6.00,0.00; 0.00,-6.00,0.00; 6.00,-6.00,0.00; 6.00,0.00,0.00"
+      degree = 2
+      precision = 0.8
+      equalSpacing = false
+      spacing = 0.25
+    }
+    delay { tick = 10 } {
+        particle {
+        type = "SWEEP_ATTACK"
+        count = 2
+        path = "slash"
+        step = 2
+        interval = 1
+      }
+      delay { tick = 10 }{
+        damage { target = "nearby"; rx = 2; ry = 1; rz = 2; amount = 8.0 }
+      }
+    }
   }
 }
 ```
