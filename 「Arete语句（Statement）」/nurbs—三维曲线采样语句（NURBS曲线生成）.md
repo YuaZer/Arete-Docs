@@ -97,15 +97,15 @@ seq {
 
 ---
 
-### ⚔️ 动态攻击演示（NURBS + 粒子 + 伤害）
+### ⚔️ 动态攻击演示（NURBS + 粒子 + 沿着路径伤害）
 ```plain
 seq {
     nurbs {
       store = "slash"
       coord = "local"
       at = "@self"
-      points = "6.00,0.00,0.00; 6.00,6.00,0.00; 0.00,6.00,0.00; -6.00,6.00,0.00; -6.00,0.00,0.00; -6.00,-6.00,0.00; 0.00,-6.00,0.00; 6.00,-6.00,0.00; 6.00,0.00,0.00"
-      degree = 2
+      points = "3.00,0.00,-2.00; 6.00,0.00,-2.00; 8.00,0.00,-2.00"
+      degree = 1
       precision = 0.8
       equalSpacing = false
       spacing = 0.25
@@ -118,9 +118,7 @@ seq {
         step = 2
         interval = 1
       }
-      delay { tick = 10 }{
-        damage { target = "nearby"; rx = 2; ry = 1; rz = 2; amount = 8.0 }
-      }
+      damage { target = "nearby"; rx = 2; ry = 1; rz = 2; amount = 8.0; path = "slash" }
     }
   }
 ```
