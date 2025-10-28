@@ -112,6 +112,7 @@ if { cond = "vars.hp > 50" } {
 - [🎯 target-entity - 选取实体](target-entity—范围选取实体_写入上下文变量.md)
 - [🗡️ damage - 造成伤害](️damage—造成伤害.md)
 - [🧪 effect - 药水效果](effect—施加药水效果.md)
+- [🍞 hunger-cost - 扣除饱食度](hunger-cost—扣除饱食度.md)
 - [💨 velocity - 设置速度](velocity—设置实体速度_冲刺击退.md)
 - [💥 knockback - 击退目标](knockback—按方向击退目标_震退敌人.md)
 - [🗑 despawn - 移除实体](despawn—移除实体_清理载体.md)
@@ -157,5 +158,5 @@ if { cond = "vars.hp > 50" } {
 
 <div style="text-align: center; padding: 20px 0; color: #999; font-size: 12px; border-top: 1px solid #eee; margin-top: 50px;">
   <p>📝 更新时间: 2025-10-17 09:49:53</p>
-  <p>📚 共 27 个语句 | 💬 QQ交流群：923280954</p>
+  <p>📚 共 28 个语句 | 💬 QQ交流群：923280954</p>
 </div>
