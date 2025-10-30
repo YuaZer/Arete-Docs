@@ -70,11 +70,12 @@
 </details>
 
 <details>
-<summary><b>🎯 实体操作语句（6个）</b></summary>
+<summary><b>🎯 实体操作语句（8个）</b></summary>
 
 - [🎯 target-entity - 选取实体](「Arete语句（Statement）」/target-entity—范围选取实体_写入上下文变量.md)
 - [🗡️ damage - 造成伤害](「Arete语句（Statement）」/️damage—造成伤害.md)
 - [🧪 effect - 药水效果](「Arete语句（Statement）」/effect—施加药水效果.md)
+- [🎯 projectile - 发射投掷物](「Arete语句（Statement）」/projectile—投掷物.md)
 - [💨 velocity - 设置速度](「Arete语句（Statement）」/velocity—设置实体速度_冲刺击退.md)
 - [💥 knockback - 击退目标](「Arete语句（Statement）」/knockback—按方向击退目标_震退敌人.md)
 - [🗑 despawn - 移除实体](「Arete语句（Statement）」/despawn—移除实体_清理载体.md)
