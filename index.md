@@ -79,6 +79,8 @@
 - [💨 velocity - 设置速度](「Arete语句（Statement）」/velocity—设置实体速度_冲刺击退.md)
 - [💥 knockback - 击退目标](「Arete语句（Statement）」/knockback—按方向击退目标_震退敌人.md)
 - [🗑 despawn - 移除实体](「Arete语句（Statement）」/despawn—移除实体_清理载体.md)
+- [📕 playerdata - 玩家数据持久化](「Arete语句（Statement）」/playerdata—玩家数据持久化.md)
+
 
 </details>
 
