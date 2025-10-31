@@ -104,12 +104,21 @@
 </details>
 
 <details>
-<summary><b>🎨 ArcartX集成（2个）</b></summary>
+<summary><b>🔧 CloudPick集成（3个）</b></summary>
+
+- [🐺 cloudpick-model - 实体模型](「Arete语句（Statement）」/cloudpick-model%20—%20设置CloudPick实体模型.md)
+- [🐉 cloudpick-anim - 动画播放](「Arete语句（Statement）」/cloudpick-anim%20—%20播放CloudPick动画.md)
+- [✉️ cloudpick-sendpacket — 发送自定义数据包](「Arete语句（Statement）」/cloudpick-sendpacket%20—%20向CloudPick客户端发送自定义数据包.md)
+</details>
+
+<details>
+<summary><b>🎨 ArcartX集成（3个）</b></summary>
 
 - [🦋 arcartx-model - 实体模型](「Arete语句（Statement）」/arcartx-model—设置ArcartX实体模型.md)
 - [🐺 arcartx-anim - 动画播放](「Arete语句（Statement）」/arcartx-anim—播放ArcartX动画.md)
-
+- [✉️ arcartx-sendpacket — 发送自定义数据包](「Arete语句（Statement）」/arcartx-sendpacket%20—%20向ArcartX客户端发送自定义数据包.md)
 </details>
+
 
 ---
 
