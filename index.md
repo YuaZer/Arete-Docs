@@ -106,9 +106,9 @@
 <details>
 <summary><b>🔧 CloudPick集成（3个）</b></summary>
 
-- [🐺 cloudpick-model - 实体模型](「Arete语句（Statement）」/cloudpick-model%20—%20设置CloudPick实体模型.md)
-- [🐉 cloudpick-anim - 动画播放](「Arete语句（Statement）」/cloudpick-anim%20—%20播放CloudPick动画.md)
-- [✉️ cloudpick-sendpacket — 发送自定义数据包](「Arete语句（Statement）」/cloudpick-sendpacket%20—%20向CloudPick客户端发送自定义数据包.md)
+- [🐺 cloudpick-model - 实体模型](「Arete语句（Statement）」/cloudpick-model—设置CloudPick实体模型.md)
+- [🐉 cloudpick-anim - 动画播放](「Arete语句（Statement）」/cloudpick-anim—播放CloudPick动画.md)
+- [✉️ cloudpick-sendpacket — 发送自定义数据包](「Arete语句（Statement）」/cloudpick-sendpacket—向CloudPick客户端发送自定义数据包.md)
 </details>
 
 <details>

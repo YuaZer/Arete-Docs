@@ -139,7 +139,12 @@ if { cond = "vars.hp > 50" } {
 
 - [🦋 arcartx-model - 实体模型](「Arete语句（Statement）」/arcartx-model—设置ArcartX实体模型.md)
 - [🐺 arcartx-anim - 动画播放](「Arete语句（Statement）」/arcartx-anim—播放ArcartX动画.md)
+- [✉️ arcartx-sendpacket — 向 ArcartX 客户端发送自定义数据包](「Arete语句（Statement）」/arcartx-sendpacket——向ArcartX客户端发送自定义数据包.md)
 
+### ☁ CloudPick集成
+- [☁ cloudpick-anim - CloudPick集成](「Arete语句（Statement）」/cloudpick-anim—播放CloudPick动画.md)
+- [☁ cloudpick-model - CloudPick集成](「Arete语句（Statement）」/cloudpick-model—设置CloudPick模型.md)
+- [☁ cloudpick-sendpacket - CloudPick集成](「Arete语句（Statement）」/cloudpick-sendpacket——向CloudPick客户端发送自定义数据包.md)
 ---
 
 ## 💡 快速提示
