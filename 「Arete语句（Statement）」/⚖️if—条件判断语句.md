@@ -50,7 +50,7 @@ if { cond = "vars.hp > 20" } {
 ```yaml
 var { mode = "burst" }
 
-if { cond = "vars.mode == 'burst'" } {
+if { cond = "'vars.mode' === 'burst'" } {
     message { text = "&c进入爆发模式！" }
 }
 ```
