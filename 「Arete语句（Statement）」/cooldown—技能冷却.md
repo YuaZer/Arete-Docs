@@ -6,13 +6,13 @@
 
 ## 参数一览
 
-| 参数名      | 类型     | 必填 | 默认值   | 说明 |
-|-------------|----------|------|---------|------|
-| `op`        | String   | 是   | —       | 操作类型：`set` / `try` / `add` / `reduce` / `clear` |
-| `skill`     | String   | 是   | —       | 技能标识（ID/名字），由冷却系统识别 |
-| `ticks`     | Long     | 否   | `0`     | 冷却时长（单位：tick，20 tick ≈ 1s）。仅 `set`/`try`/`add`/`reduce` 需要 |
-| `player`    | String   | 否   | `@self` | 目标玩家解析：`@self` / `@target`（若为空则取施法者） |
-| `store`     | String   | 否   | —       | 仅当 `op = try` 时有效：将是否成功开启冷却的结果（`true/false`）写入变量 |
+| 参数名      | 类型     | 必填 | 默认值     | 说明                                                         |
+|----------|--------|----|---------|------------------------------------------------------------|
+| `op`     | String | 是  | —       | 操作类型：`set` / `try` / `add` / `reduce` / `clear`            |
+| `skill`  | String | 是  | —       | 技能标识（ID/名字），由冷却系统识别                                        |
+| `ticks`  | Long   | 否  | `0`     | 冷却时长（单位：tick，20 tick ≈ 1s）。仅 `set`/`try`/`add`/`reduce` 需要 |
+| `player` | String | 否  | `@self` | 目标玩家解析：`@self` / `@target`（若为空则取施法者）                       |
+| `store`  | String | 否  | —       | 仅当 `op = try` 时有效：将是否成功开启冷却的结果（`true/false`）写入变量           |
 
 > 冷却时长单位为 Minecraft 服务器 tick：1 秒 = 20 tick。
 
