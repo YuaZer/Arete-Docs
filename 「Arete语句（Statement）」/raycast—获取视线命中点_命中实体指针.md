@@ -28,13 +28,14 @@ raycast {
 ---
 
 ## 📦 写入的变量
-| 变量名 | 类型 | 说明 |
-| --- | --- | --- |
-| `<storePos>` | `Location` | 命中点（或视线末端）的位置对象 |
-| `<storePos>Str` | `String` | 便于展示的字符串：`world,x,y,z`<br/>（坐标保留2位小数） |
-| `<storeEntity>` | `Entity` | 命中实体（仅在命中时写入；未命中会 `remove`<br/>） |
-| `<storeEntity>Str` | `String` | 命中实体名称（命中时写入；未命中会 `remove`<br/>） |
-| `pointer` | `Entity` | 命中实体时自动写入；未命中则 `remove("pointer")` |
+| 变量名                 | 类型         | 说明                                    |
+|---------------------|------------|---------------------------------------|
+| `<storePos>`        | `Location` | 命中点（或视线末端）的位置对象                       |
+| `<storePos>Str`     | `String`   | 便于展示的字符串：`world,x,y,z`<br/>（坐标保留2位小数） |
+| `<storeEntity>`     | `Entity`   | 命中实体（仅在命中时写入；未命中会 `remove`<br/>）      |
+| `<storeEntity>Str`  | `String`   | 命中实体名称（命中时写入；未命中会 `remove`<br/>）      |
+| `<storeEntity>Uuid` | `UUID`     | 命中实体时自动写入；未命中则 `remove`<br/>）         |
+| `pointer`           | `Entity`   | 命中实体时自动写入；未命中则 `remove("pointer")`    |
 
 
 在 `ifchain` / 条件表达式中请使用 `var.<name>` 访问，如：`var.pointer != null`、`var.aimPos != null`。

@@ -42,27 +42,27 @@ armorstand {
 ---
 
 ## 参数说明
-| 参数 | 类型 | 默认 | 说明 |
-| --- | --- | --- | --- |
-| `id` | String? | `null` | 若填写，将生成的 `ArmorStand`<br/> 存入 `ctx.vars[id]`<br/>，便于后续引用/移除 |
-| `at` | String? | `@self` | 生成位置；支持 `@self/@target/${var}/x,y,z/~相对` |
-| `slot` | String | `head` | 穿戴槽位：`head/chest/legs/feet/hand/offhand`<br/>（内部映射到 `EquipmentSlot`<br/>） |
-| `item` | String? | `null` | 穿戴物品（你的 `parseItemStack(itemSpec)`<br/> 规则） |
-| `name` | String? | `null` | 实体名称 |
-| `nameVisible` | Boolean | `true` | 是否显示名称 |
-| `life` | Long | `100` | 生存时长（tick），到时自动 `remove()` |
-| `small` | Boolean | `false` | 是否小型化（更迷你） |
-| `marker` | Boolean | `true` | 标记模式（无碰撞，命中箱极小，演出推荐开启） |
-| `to` | String? | `null` | 直线运动的终点坐标 |
-| `move` | Int | `0` | 直线补间时长（tick），`0`<br/> 表示不做直线补间 |
-| `easing` | String | `linear` | 补间曲线：`linear/easeIn/easeOut/easeInOut` |
-| `preset` | String? | `null` | 轨迹预设，当前支持 `orbit`<br/>（环绕） |
-| `center` | String? | `@self` | `orbit`<br/> 的环绕中心 |
-| `radius` | Double | `1.5` | `orbit`<br/> 的半径 |
-| `duration` | Int | `40` | `orbit`<br/> 的持续时长（tick） |
-| `revolutions` | Double | `1.0` | `orbit`<br/> 的圈数（1.0 即 360°） |
-| `index` | Int | `0` | 多件环绕时的第几个（用于错相位） |
-| `total` | Int | `1` | 多件环绕的总数 |
+| 参数            | 类型      | 默认       | 说明                                                                        |
+|---------------|---------|----------|---------------------------------------------------------------------------|
+| `id`          | String? | `null`   | 若填写，将生成的 `ArmorStand`<br/> 存入 `ctx.vars[id]`<br/>，便于后续引用/移除               |
+| `at`          | String? | `@self`  | 生成位置；支持 `@self/@target/${var}/x,y,z/~相对`                                  |
+| `slot`        | String  | `head`   | 穿戴槽位：`head/chest/legs/feet/hand/offhand`<br/>（内部映射到 `EquipmentSlot`<br/>） |
+| `item`        | String? | `null`   | 穿戴物品（你的 `parseItemStack(itemSpec)`<br/> 规则）                               |
+| `name`        | String? | `null`   | 实体名称                                                                      |
+| `nameVisible` | Boolean | `true`   | 是否显示名称                                                                    |
+| `life`        | Long    | `100`    | 生存时长（tick），到时自动 `remove()`                                                |
+| `small`       | Boolean | `false`  | 是否小型化（更迷你）                                                                |
+| `marker`      | Boolean | `true`   | 标记模式（无碰撞，命中箱极小，演出推荐开启）                                                    |
+| `to`          | String? | `null`   | 直线运动的终点坐标                                                                 |
+| `move`        | Int     | `0`      | 直线补间时长（tick），`0`<br/> 表示不做直线补间                                            |
+| `easing`      | String  | `linear` | 补间曲线：`linear/easeIn/easeOut/easeInOut`                                    |
+| `preset`      | String? | `null`   | 轨迹预设，当前支持 `orbit`<br/>（环绕）                                                |
+| `center`      | String? | `@self`  | `orbit`<br/> 的环绕中心                                                        |
+| `radius`      | Double  | `1.5`    | `orbit`<br/> 的半径                                                          |
+| `duration`    | Int     | `40`     | `orbit`<br/> 的持续时长（tick）                                                  |
+| `revolutions` | Double  | `1.0`    | `orbit`<br/> 的圈数（1.0 即 360°）                                              |
+| `index`       | Int     | `0`      | 多件环绕时的第几个（用于错相位）                                                          |
+| `total`       | Int     | `1`      | 多件环绕的总数                                                                   |
 
 
 ---
