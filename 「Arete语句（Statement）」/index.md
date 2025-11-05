@@ -109,15 +109,19 @@ if { cond = "vars.hp > 50" } {
 ### 🎯 实体操作
 选择、伤害、控制游戏实体。
 
-- [🎯 target-entity - 选取实体](target-entity—范围选取实体_写入上下文变量.md)
-- [🗡️ damage - 造成伤害](️damage—造成伤害.md)
-- [🧪 effect - 药水效果](effect—施加药水效果.md)
-- [🍞 hunger-cost - 扣除饱食度](hunger-cost—扣除饱食度.md)
-- [🎯 projectile - 发射投掷物](projectile—投掷物.md)
-- [💨 velocity - 设置速度](velocity—设置实体速度_冲刺击退.md)
-- [💥 knockback - 击退目标](knockback—按方向击退目标_震退敌人.md)
-- [🗑 despawn - 移除实体](despawn—移除实体_清理载体.md)
+- [🎯 target-entity - 选取实体](「Arete语句（Statement）」/target-entity—范围选取实体_写入上下文变量.md)
+- [🗡️ damage - 造成伤害](「Arete语句（Statement）」/️damage—造成伤害.md)
+- [🧪 effect - 药水效果](「Arete语句（Statement）」/effect—施加药水效果.md)
 - [🍞 hunger-cost - 扣除饱食度](「Arete语句（Statement）」/hunger-cost—扣除饱食度.md)
+- [🎯 projectile - 发射投掷物](「Arete语句（Statement）」/projectile—投掷物.md)
+- [💨 velocity - 设置速度](「Arete语句（Statement）」/velocity—设置实体速度_冲刺击退.md)
+- [💥 knockback - 击退目标](「Arete语句（Statement）」/knockback—按方向击退目标_震退敌人.md)
+- [🗑 despawn - 移除实体](「Arete语句（Statement）」/despawn—移除实体_清理载体.md)
+- [🍞 hunger-cost - 扣除饱食度](「Arete语句（Statement）」/hunger-cost—扣除饱食度.md)
+- [🧱 display-block — 创建虚拟方块展示](「Arete语句（Statement）」/display-block—创建虚拟方块展示.md)
+- [📦 display-item - 创建虚拟物品展示](「Arete语句（Statement）」/display-item—创建虚拟物品展示.md)
+- [🧊 display-block-control — 控制虚拟方块展示](「Arete语句（Statement）」/display-block-control—控制虚拟方块展示.md)
+- [📦 display-item-control - 控制虚拟物品展示](「Arete语句（Statement）」/display-item-control—控制虚拟物品展示.md)
 
 ### 🚀 运动与定位
 实现复杂的位移、轨迹和射线检测。

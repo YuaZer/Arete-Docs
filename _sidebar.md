@@ -47,6 +47,10 @@
     * [💥 knockback - 击退目标](「Arete语句（Statement）」/knockback—按方向击退目标_震退敌人.md)
     * [🗑 despawn - 移除实体](「Arete语句（Statement）」/despawn—移除实体_清理载体.md)
     * [📕 playerdata - 玩家数据持久化](「Arete语句（Statement）」/playerdata—玩家数据持久化.md)
+    * [🧱 display-block — 创建虚拟方块展示](「Arete语句（Statement）」/display-block—创建虚拟方块展示.md)
+    * [📦 display-item - 创建虚拟物品展示](「Arete语句（Statement）」/display-item—创建虚拟物品展示.md)
+    * [🧊 display-block-control — 控制虚拟方块展示](「Arete语句（Statement）」/display-block-control—控制虚拟方块展示.md)
+    * [📦 display-item-control - 控制虚拟物品展示](「Arete语句（Statement）」/display-item-control—控制虚拟物品展示.md)
 
   
   * **运动与定位**
