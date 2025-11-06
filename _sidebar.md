@@ -41,6 +41,7 @@
   * **实体操作**
     * [🎯 target-entity - 选取实体](「Arete语句（Statement）」/target-entity—范围选取实体_写入上下文变量.md)
     * [🗡️ damage - 造成伤害](「Arete语句（Statement）」/️damage—造成伤害.md)
+    * [❤️ heal - 恢复生命](「Arete语句（Statement）」/heal—恢复生命.md)
     * [🧪 effect - 药水效果](「Arete语句（Statement）」/effect—施加药水效果.md)
     * [🎯 projectile - 发射投掷物](「Arete语句（Statement）」/projectile—投掷物.md)
     * [🍞 hunger-cost - 扣除饱食度](「Arete语句（Statement）」/hunger-cost—扣除饱食度.md)
