@@ -6,24 +6,30 @@
 
 ## 参数一览
 
-| 参数名               | 类型          | 必填 | 默认值        | 说明                                             |
-|-------------------|-------------|----|------------|------------------------------------------------|
-| `type`            | String      | 否  | `snowball` | 投掷物/弹道实体类型，见下方支持列表                             |
-| `at`              | LocationStr | 否  | `@self`    | 发射位置，遵循 `ctx.resolveLocation(...)` 解析规则        |
-| `shooter`         | String      | 否  | `self`     | 射手选择：`self` / `target` / `none` / `var:xxx`    |
-| `shooterVar`      | String      | 否  | —          | 直接从变量读取射手（变量里需为 `Entity` 或 `ProjectileSource`） |
-| `towards`         | LocationStr | 否  | —          | 朝该位置飞行；若未提供，将使用射手朝向（或 `source` 朝向）             |
-| `vx`/`vy`/`vz`    | Double      | 否  | —          | 直接指定速度向量，若提供则覆盖 `towards` 方向计算                 |
-| `speed`           | Double      | 否  | `1.0`      | 方向单位向量的倍率，最终速度通常为 `dir.normalize() * speed`    |
-| `spread`          | Double      | 否  | `0.0`      | 高斯随机散布（越大越发散）                                  |
-| `inheritVelocity` | Boolean     | 否  | `false`    | 是否叠加射手当前速度向量到弹道上                               |
-| `gravity`         | Boolean     | 否  | —          | 是否受重力（部分投掷物可修改）                                |
-| `store`           | String      | 否  | —          | 将创建的投掷物存入 `ctx.vars[store]`                    |
-| `name`            | String      | 否  | —          | 自定义显示名（支持 `&` 颜色符），并显示在头顶                      |
-| `angleX`          | Double      | 否  | `0.0`      | 绕 X 轴旋转角（度），抬头/俯仰方向微调                           |
-| `angleY`          | Double      | 否  | `0.0`      | 绕 Y 轴旋转角（度），左右偏航方向微调                           |
-| `angleZ`          | Double      | 否  | `0.0`      | 绕 Z 轴旋转角（度），滚转/平面内旋转微调                         |
-| `angleMode`       | String      | 否  | `relative` | 角度模式：`relative` 相对朝向；`absolute` 世界坐标                 |
+| 参数名                    | 类型          | 必填 | 默认值           | 说明                                             |
+|------------------------|-------------|----|---------------|------------------------------------------------|
+| `type`                 | String      | 否  | `snowball`    | 投掷物/弹道实体类型，见下方支持列表                             |
+| `at`                   | LocationStr | 否  | `@self`       | 发射位置，遵循 `ctx.resolveLocation(...)` 解析规则        |
+| `shooter`              | String      | 否  | `self`        | 射手选择：`self` / `target` / `none` / `var:xxx`    |
+| `shooterVar`           | String      | 否  | —             | 直接从变量读取射手（变量里需为 `Entity` 或 `ProjectileSource`） |
+| `towards`              | LocationStr | 否  | —             | 朝该位置飞行；若未提供，将使用射手朝向（或 `source` 朝向）             |
+| `vx`/`vy`/`vz`         | Double      | 否  | —             | 直接指定速度向量，若提供则覆盖 `towards` 方向计算                 |
+| `speed`                | Double      | 否  | `1.0`         | 方向单位向量的倍率，最终速度通常为 `dir.normalize() * speed`    |
+| `spread`               | Double      | 否  | `0.0`         | 高斯随机散布（越大越发散）                                  |
+| `inheritVelocity`      | Boolean     | 否  | `false`       | 是否叠加射手当前速度向量到弹道上                               |
+| `gravity`              | Boolean     | 否  | —             | 是否受重力（部分投掷物可修改）                                |
+| `store`                | String      | 否  | —             | 将创建的投掷物存入 `ctx.vars[store]`                    |
+| `name`                 | String      | 否  | —             | 自定义显示名（支持 `&` 颜色符），并显示在头顶                      |
+| `angleX`               | Double      | 否  | `0.0`         | 绕 X 轴旋转角（度），抬头/俯仰方向微调                          |
+| `angleY`               | Double      | 否  | `0.0`         | 绕 Y 轴旋转角（度），左右偏航方向微调                           |
+| `angleZ`               | Double      | 否  | `0.0`         | 绕 Z 轴旋转角（度），滚转/平面内旋转微调                         |
+| `angleMode`            | String      | 否  | `relative`    | 角度模式：`relative` 相对朝向；`absolute` 世界坐标           |
+| `damage`               | double      | 否  | `null`        | 如果不填,那么则遵循原版伤害,如果填了,则遵循自定义伤害                   |
+| `hitStoreEntity`       | String      | 否  | `pjHitEntity` | 将命中的实体存入指定变量                                   |
+| `hitStorePos`          | String      | 否  | `pjHitPos`    | 命中的坐标存入指定变量                                    |
+| `hitRemoveDelayTicks`  | int         | 否  | `0`           | 命中实体后多少ticks后移除                                |
+| `autoRemoveDelayTicks` | int         | 否  | `40`          | 发射出去后多少ticks后移除                                |
+| `pierceLevel`          | String      | 否  | `0`           | 穿透等级(1.14+新增的附魔效果)                             |
 
 > 解析顺序提示：速度优先级为 手动向量(`vx/vy/vz`) > `towards` > 射手/施法者朝向；随后应用角度(`angle*`)，再乘 `speed` 并叠加 `spread` 与 `inheritVelocity`。
 
