@@ -108,7 +108,7 @@
 - [🧾 command - 执行指令](「Arete语句（Statement）」/command—控制台执行指令_支持占位符.md)
 - [🐉 mm-cast - MythicMobs集成](「Arete语句（Statement）」/mm-cast—调用MythicMobs技能_触发外部连锁.md)
 - [💻 kether - 执行Kether脚本](「Arete语句（Statement）」/kether—执行Kether脚本语句.md)
-
+- [💻 js - 执行js脚本](「Arete语句（Statement）」/js-调用js文件执行操作.md)
 </details>
 
 <details>
