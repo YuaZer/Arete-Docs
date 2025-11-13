@@ -1,176 +1,243 @@
-# JS 语句使用教程
+# Arete JS 脚本教程
 
-本文档介绍如何在 Arete 中使用 `js`/`javascript` 语句调用 `script` 目录中的 JavaScript 脚本。阅读完后，你将能够：
+> 本教程适用于在 Arete 技能系统中使用 JS 引擎（JsEngineProvider）编写脚本的开发者。内容涵盖脚本结构、上下文对象、参数处理、常用工具函数以及调试技巧，帮助你快速编写可维护的 JS 语句脚本。
 
-- 理解脚本文件的放置位置与命名规则
-- 在技能配置中正确编写 `js { ... }` 语句
-- 在脚本内部获取 Arete 提供的上下文对象与自定义参数
-- 排查常见的执行错误
+## 1. 基础概念
 
-## 1. 脚本目录结构
-
-- 插件首次启动时会在插件数据目录（通常为 `plugins/Arete/`）下创建 `script/` 文件夹。
-- `script/` 文件夹中的所有子文件夹都会被递归扫描，后缀为 `.js` 的文件会被注册为可调用的脚本。
-- `js` 语句的 `path` 参数使用**相对路径**（不含 `.js` 后缀）。例如：
-    - 文件位于 `plugins/Arete/script/示例/传送到指定坐标上方.js`
-    - 语句中的写法为 `path = "示例/传送到指定坐标上方"`
-- 保存或新增脚本后，可通过插件提供的重载命令（如 `/arete reload`，视服务器配置而定）或重启服务器，让 `JsScriptManager` 重新加载脚本。
-
-## 2. 在技能中调用脚本
-
-`js` 与 `javascript` 两个关键字等价。语法示例：
-
-```kether
-js {
-  path = "示例/传送到指定坐标上方"
-  上下文实体变量 = "${aimEnt}"      # 自定义的实体参数
-  上下文Location变量 = "${aimPos}"   # 自定义的坐标参数
-  高度 = "5"                          # 额外的数值参数
-}
-```
-
-编写技巧：
-
-- `path` 必填，其余键值对会被作为参数传给脚本。
-- 所有值默认以字符串形式出现，如果需要传递变量，请使用 `"${变量名}"` 的写法，Arete 会自动解析变量。
-- 你也可以直接写常量，例如 `消息 = "你好，世界"` 或 `开关 = "true"`。
-
-### 内置可用变量
-
-即使未显式传参，以下键也会自动注入到脚本的参数表中，便于访问：
-
-| 参数键      | 类型                       | 说明                                     |
-|----------|--------------------------|----------------------------------------|
-| `source` | `CommandSender`/`Entity` | 语句的发起者（通常是技能释放者）。                      |
-| `target` | `Entity?`                | 当前技能命中的实体，可为空。                         |
-| `player` | `Player`                 | `ctx.playerOrNull()`，若为空则回退到 `source`。 |
-| `origin` | `Location`               | 技能的起始坐标，已复制为独立对象。                      |
-
-以上参数也会以中文键名写入 `参数` 集合，如 `参数["源"]` 不存在，推荐通过英文键访问。
-
-## 3. 脚本内获取参数与上下文
-
-当脚本执行时，Arete 会提供以下全局变量：
-
-| 变量名                                | 内容                                                          |
-|------------------------------------|-------------------------------------------------------------|
-| `ctx` / `context`                  | `ExecutionContext`，可调用 `ctx.vars`、`ctx.resolveVar()` 等工具方法。 |
-| `source`、`target`、`player`         | 与上文描述一致，便于快速访问。                                             |
-| `参数` / `params` / `param` / `args` | `MutableMap<String, Any?>`，包含所有传入参数与内置参数。                   |
-| `scriptPath`                       | 当前执行脚本的相对路径（含子目录）。                                          |
-
-在脚本中推荐使用 `参数`（或 `params`）读取你在技能中传入的键值。示例：
+- **脚本入口**：所有脚本必须提供 `main(ctx, 参数)` 函数作为执行入口，JS 引擎会自动调用该函数。
+- **上下文对象 (`ctx`)**：由技能运行时传入，通常包含玩家、技能、目标等上下文信息。
+- **参数对象 (`参数`)**：在技能配置中通过 `js { ... }` 传递的参数集合，可使用中文或英文键名。
 
 ```javascript
-var 参数表 = 参数 || {};
-var entity = 参数表["上下文实体变量"] || ctx.player;
-var location = 参数表["上下文Location变量"] || ctx.origin;
-var height = parseFloat(参数表["高度"] || 3);
-
-if (!location) {
-  throw new Error("未提供可用的坐标");
-}
-
-var targetLocation = location.clone();
-targetLocation.add(0, height, 0);
-
-entity.teleport(targetLocation);
-```
-
-> 提示：为避免 `ClassCastException`，如果参数可能是字符串，先进行类型判断或转换。
-
-## 4. 调试与错误处理
-
-- 如果脚本路径填写错误或文件未被加载，控制台会输出：`Script not found: ...`。
-- 执行过程中出现的异常会被捕获并写入控制台，例如语法错误、调用未定义方法等。利用日志中的栈追踪定位问题。
-- 当脚本报错时，后续语句仍会继续执行；若希望中断流程，可在脚本中抛出异常并在技能中自行处理。
-- 为提升可读性，可在脚本顶部使用多行注释说明参数用途与注意事项。
-
-## 5. 完整示例
-
-### 5.1 技能配置片段
-
-```arete
-# 假设前面已有 raycast 语句写入 aimPos / aimEnt
-js {
-  path = "示例/传送到指定坐标上方"
-  上下文实体变量 = "${aimEnt}"
-  上下文Location变量 = "${aimPos}"
-  高度 = "5"
+function main(ctx, 参数) {
+    // 入口逻辑
 }
 ```
 
-### 5.2 对应脚本 `script/示例/传送到指定坐标上方.js`
+## 2. 推荐的脚本结构
+
+保持入口函数简洁，并将复杂逻辑拆分为辅助函数以便复用与测试。
 
 ```javascript
-/**
- * 将实体传送到目标坐标的上方。
- */
-var 参数表 = 参数 || {};
-var teleportEntity = 参数表["上下文实体变量"] || 参数表.source || ctx.player || ctx.source;
-var baseLocation = 参数表["上下文Location变量"] || 参数表.origin || ctx.origin;
-var extraHeight = 参数表["高度"] || 3;
-
-if (!baseLocation) {
-  throw new Error("未提供可用的目标坐标，无法执行传送");
+function main(ctx, 参数) {
+    const 实体 = 解析实体(ctx, 参数);
+    const 目标 = 计算目标位置(ctx, 参数);
+    传送实体(实体, 目标);
 }
 
-if (typeof extraHeight === "string") {
-  extraHeight = parseFloat(extraHeight) || 0;
+function 解析实体(ctx, 参数) {
+    return 参数["上下文实体变量"] || 参数.entity || 参数.source || ctx.player || ctx.source;
 }
 
-var targetLocation = baseLocation.clone();
-targetLocation.add(0, extraHeight, 0);
+function 计算目标位置(ctx, 参数) {
+    const 基础坐标 = 参数["上下文Location变量"] || 参数.location || 参数.origin || ctx.origin;
+    if (!基础坐标) {
+        throw new Error("未提供可用的目标坐标");
+    }
+    const 高度 = 解析数字(参数["高度"], 3);
+    const 目标 = 基础坐标.clone();
+    目标.add(0, 高度, 0);
+    return 目标;
+}
 
-if (teleportEntity && typeof teleportEntity.teleport === "function") {
-  teleportEntity.teleport(targetLocation);
-  if (ctx.player && typeof ctx.player.sendMessage === "function") {
-    ctx.player.sendMessage("§a已通过 JS 脚本传送至指定位置上方");
-  }
-} else {
-  throw new Error("传入的实体不支持传送: " + teleportEntity);
+function 传送实体(实体, 位置) {
+    if (!实体 || typeof 实体.teleport !== "function") {
+        throw new Error("传入的实体不支持传送");
+    }
+    实体.teleport(位置);
+}
+
+function 解析数字(原始值, 默认值 = 0) {
+    if (原始值 == null) return 默认值;
+    const 数值 = typeof 原始值 === "string" ? parseFloat(原始值) : 原始值;
+    return isNaN(数值) ? 默认值 : 数值;
 }
 ```
 
-将上述片段保存后，即可在技能中通过 `js` 语句调用脚本，完成自定义逻辑。
+## 3. ctx 常见字段
 
----
+| 字段          | 类型       | 说明               |
+|-------------|----------|------------------|
+| `player`    | Player   | 触发技能的玩家实体        |
+| `source`    | Entity   | 触发来源（可能是怪物、投射物等） |
+| `origin`    | Location | 技能执行时的原点坐标       |
+| `skill`     | Skill    | 当前执行的技能对象        |
+| `variables` | Map      | 技能变量，可从中读取自定义数据  |
 
-# JS 模块脚本编写提示词模板
+> 注意：具体字段可能因触发方式或版本而异，建议在脚本中做好空值判断。
 
-以下提示词可直接粘贴给 AI，让其按照 Arete 插件的 JS 模块要求生成脚本。请在标注為 `___` 的位置补充你的具体需求或变量名称。
+## 4. 参数处理技巧
 
----
+1. **允许多种键名**：兼容中文与英文键名，提升脚本的通用性。
+2. **提供默认值**：对于可选参数使用 `??` 或辅助函数提供默认值。
+3. **字符串数字转换**：在需要数字的场景使用 `parseFloat` 或 `Number` 转换输入。
+4. **布尔值解析**：
+   ```javascript
+   function 解析布尔(值, 默认值 = false) {
+       if (值 == null) return 默认值;
+       if (typeof 值 === "boolean") return 值;
+       return ["true", "1", "yes", "是"].includes(String(值).toLowerCase());
+   }
+   ```
+
+## 5. 常见上下文工具函数
+
+```javascript
+function 发送玩家消息(ctx, 文本) {
+    if (ctx.player && typeof ctx.player.sendMessage === "function") {
+        ctx.player.sendMessage(文本);
+    }
+}
+
+function 获取目标列表(ctx, 参数) {
+    if (Array.isArray(参数.targets)) return 参数.targets;
+    if (ctx.targets && Array.isArray(ctx.targets)) return ctx.targets;
+    return ctx.player ? [ctx.player] : [];
+}
+```
+
+将通用函数放在脚本顶部或单独模块中，方便重复使用。
+
+## 6. 调试与日志
+
+- 使用 `logger`：若运行环境提供 `logger` 对象，可调用 `logger.info(...)` 输出调试信息。
+- 临时使用 `print`：`print()` 也可用于快速打印，但请在上线前移除以免污染日志。
+- 异常信息要清晰：在 `throw new Error()` 时提供明确的错误描述，便于定位问题。
+
+## 7. 编写可维护脚本的建议
+
+1. **命名清晰**：变量、函数使用描述性名称，必要时添加注释。
+2. **早期返回**：在参数不足或条件不满足时尽早返回或抛错。
+3. **封装重复逻辑**：将多处使用的逻辑提取为函数，保持入口简洁。
+4. **保持幂等**：尽量避免脚本重复执行带来副作用，可通过状态变量控制。
+
+## 8. 常见问题 FAQ
+
+- **Q：为什么脚本不执行？**
+    - 请确认脚本内是否定义并导出 `main(ctx, 参数)`。
+    - 检查技能配置是否正确引用该脚本。
+
+- **Q：如何传递多个参数？**
+    - 在技能中使用 `js { 键1: 值1, 键2: 值2 }`，在脚本中通过 `参数.键1` 获取。
+
+- **Q：如何调用其他脚本？**
+    - 建议将共用逻辑抽成函数并复制到需要的脚本，或通过模块化机制（若引擎支持）。
+
+## 9. 完整示例
+
+```javascript
+function main(ctx, 参数 = {}) {
+    const 玩家 = ctx.player;
+    const 提示文本 = 参数.message || "§a技能已触发";
+    const 是否广播 = 解析布尔(参数.broadcast, false);
+
+    if (!玩家) {
+        throw new Error("未找到触发该技能的玩家");
+    }
+
+    if (是否广播 && typeof ctx.server?.broadcast === "function") {
+        ctx.server.broadcast(提示文本);
+    } else {
+        发送玩家消息(ctx, 提示文本);
+    }
+}
+
+function 解析布尔(值, 默认值 = false) {
+    if (值 == null) return 默认值;
+    if (typeof 值 === "boolean") return 值;
+    return ["true", "1", "yes", "是"].includes(String(值).toLowerCase());
+}
+
+function 发送玩家消息(ctx, 文本) {
+    if (ctx.player && typeof ctx.player.sendMessage === "function") {
+        ctx.player.sendMessage(文本);
+    }
+}
+```
+
+## 10. 后续资源
+
+- 查看 `/script/示例` 目录下的官方示例脚本。
+- 关注 Arete 项目的更新日志了解脚本引擎的最新特性。
+
+> 若你在编写脚本过程中遇到问题，欢迎反馈以便我们完善教程内容。
+
+# Arete JS 脚本生成 AI 提示词
+
+> 通过以下提示词模板，可以快速指导 AI 生成符合 Arete 引擎规范的 JS 脚本及其调用示例。根据实际需求填充其中的占位符即可。
+
+## 1. 通用提示词模板
 
 ```
-你现在是一名 Minecraft 服务器插件脚本开发助手，请基于下列信息编写 JavaScript 脚本：
+你是一名熟悉 Arete 技能系统的脚本开发者，现需编写一段 JS 脚本并给出示例调用。
 
-【脚本基础信息】
-- 目标：___（描述脚本要完成的功能，例如“让命中的实体受到燃烧效果并播放粒子”）。
-- 存放路径：script/___/___ .js（在 `config.yml` 同级的 `script` 目录下创建对应的子目录和文件）。
-- 运行环境：Arete 自带的 JS 模块，可通过 `js { path = "..." }` 语句调用。
+【背景信息】
+- 技能目标：<描述技能要实现的效果，例如“将玩家传送到最近的安全区并广播提示”>
+- 可用上下文：ctx.player, ctx.source, ctx.origin, ctx.variables, ctx.server
+- 额外素材：<可选，列出相关 API 或已有函数，如“有一个工具函数 safeTeleport(entity, location)”>
 
-【可使用的上下文参数】
-- `参数.source`：触发技能的默认实体，与 `ctx.source` 相同。
-- `参数.上下文实体变量`：在技能语句中通过 `上下文实体变量 = "${...}"` 传入的实体对象。
-- `参数.上下文Location变量`：在技能语句中通过 `上下文Location变量 = "${...}"` 传入的坐标对象。
-- 其他通过 `参数.xxx` 形式注入的附加参数（若有，请在此处列出：___）。
-
-【脚本设计要求】
-1. 详细说明脚本需要执行的步骤，例如：
-   - 第一步：___
-   - 第二步：___
-2. 如果脚本需要读取或写入变量，请说明变量用途（例如 `let target = 参数.上下文实体变量;`）。
-3. 如需对坐标进行偏移或计算，请明确说明偏移量或算法。
-4. 若要向玩家发送消息或播放效果，请描述消息内容或效果参数。
-5. 请确保脚本最后包含必要的容错或判空逻辑（例如判断 `参数.上下文实体变量` 是否存在）。
+【脚本要求】
+1. 必须定义 `function main(ctx, 参数 = {})` 作为入口。
+2. 入口逻辑应拆分成 1~3 个辅助函数，保持结构清晰。
+3. 需要对关键参数进行校验，并提供默认值或报错信息。
+4. 所有提示信息使用彩色文本，例如 `§a`、`§c`。
+5. 在给出脚本后，再提供一段技能配置中的 `js { ... }` 调用示例，展示参数如何传入。
 
 【输出格式】
-- 返回完整的 JavaScript 代码块，包含必要的注释，便于我理解每一步。
-- 代码顶部注明作者或用途：`// 功能：___`。
-- 如果需要额外说明或部署步骤，请在代码块后单独写出。
+1. 标题：`## 脚本代码`
+2. 使用 ```javascript 代码块输出脚本。
+3. 标题：`## 调用示例`
+4. 使用 ```text 代码块展示 `js { ... }` 配置写法。
+5. 若有注意事项，使用项目符号列出。
 ```
 
----
+> 使用时只需替换尖括号内的内容，如有更多上下文或约束，也可添加到“背景信息”或“脚本要求”中。
 
-使用方式：将模板复制给 AI，并补充 `___` 部分即可生成符合 JS 模块规范的脚本。
+## 2. 不同场景的补充说明
+
+根据实际需求，可在模板中加入以下补充：
+
+- **多目标操作**：提醒 AI `参数.targets` 或 `ctx.targets` 可能为目标列表，需要循环处理。
+- **冷却/条件判断**：要求脚本检查 `ctx.variables` 中的状态或冷却时间。
+- **数值计算**：说明需要解析浮点数、百分比或随机值，并给出范围限制。
+- **安全校验**：强调在调用可能为空的对象方法前进行类型判断。
+
+## 3. 示例：群体治疗技能
+
+以下演示如何使用模板填充信息并得到完整输出：
+
+```
+你是一名熟悉 Arete 技能系统的脚本开发者，现需编写一段 JS 脚本并给出示例调用。
+
+【背景信息】
+- 技能目标：对附近队友施加持续治疗效果，并在聊天栏提示玩家。
+- 可用上下文：ctx.player, ctx.origin, ctx.targets, ctx.variables, ctx.server
+
+【脚本要求】
+1. 必须定义 `function main(ctx, 参数 = {})` 作为入口。
+2. 入口逻辑拆分为：解析目标、施加治疗、广播提示。
+3. 参数包含 `radius`（半径，默认 5）、`hotDuration`（持续时间，秒，默认 10）。
+4. 对缺失的玩家或目标列表给出报错或警告。
+5. 在给出脚本后，再提供技能配置中的 `js { ... }` 示例。
+
+【输出格式】
+1. 标题：`## 脚本代码`
+2. 使用 ```javascript 代码块输出脚本。
+3. 标题：`## 调用示例`
+4. 使用 ```text 代码块展示 `js { ... }` 配置写法。
+```
+```
+
+> 将以上描述提交给 AI 后，可直接获得结构完善的脚本与调用示例，大幅提升编写效率。
+
+## 4. 提示词使用小贴士
+
+- **明确上下文**：尽量列出可用的 ctx 字段与外部函数，避免 AI 假设不存在的 API。
+- **限定输出格式**：提前约定标题、代码块类型和语言，可以减少后续整理工作。
+- **强调错误处理**：让 AI 主动校验参数并输出友好错误信息，提高脚本可靠性。
+- **复用模板**：将模板保存到常用笔记中，按需增删条目即可适配不同脚本需求。
+
+## 5. 相关资源
+
+- [《Arete JS 脚本教程》](js脚本教程.md)：了解脚本规范与最佳实践。
+- `src/main/resources/script/示例/` 目录：官方示例脚本集合，可作为 AI 生成脚本的参考风格。
