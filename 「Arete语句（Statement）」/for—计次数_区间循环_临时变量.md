@@ -79,6 +79,7 @@ for { list = "targets"; var = "t"; index = "idx" } {
 | `list` / `of` / `in` / `over` / `items` | String | **遍历模式**：指定变量名，从 `ctx.vars[name]` 取集合            |
 | `var` / `as`                            | String | 当前**值变量**的变量名（写入 `ctx.vars[var]`）；示例 `${i}`      |
 | `index` / `idx` / `index-var`           | String | 当前**下标变量**的变量名（写入 `ctx.vars[index]`）；示例 `${idx}` |
+| `type`                                  | String | 默认seq,可填:seq / parallel (代表两种执行方式: 顺序执行/同时执行)    |
 
 ### 变量行为（快照与智能类型）
 - 每次循环前会把**当前值**写入 `ctx.vars[var]`，把**当前下标**写入 `ctx.vars[index]`；
