@@ -126,8 +126,9 @@ velocity {
 ### 🧮 连续加速（add 的妙用）
 ```plain
 # 每次循环叠加一点前进速度，实现蓄力突进
-repeat times=5 delay=1 {
-  velocity { x = 0 z = 0.25 add = true }
+for { times = 5 var = "i" }{
+    velocity { x = 0 z = 0.25 add = true }
+    delay { ticks = 1 }
 }
 ```
 
