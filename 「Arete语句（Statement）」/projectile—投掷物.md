@@ -94,7 +94,21 @@ projectile { type = "fireball" vx = 0 vy = 0.1 vz = 1 speed = 1.0 angleY = 45 an
 ```plain
 projectile { type = "arrow" speed = 2.2 pierce = 2 autoRemoveDelayTicks = 80 }
 ```
-
+### 3.1) 命中实体后额外执行语句
+```plain
+projectile {
+        type = "arrow"
+        damage = 5
+        hitStoreEntity = "hit"
+        hitStorePos = "hitPos"
+      } {
+        # 只有命中实体才会进来
+        message {
+            to = "self"
+            text = "&a你命中了 ${hit}，坐标: ${hitPos}"
+        }
+      }
+```
 ### 4) 能量子弹（虚拟弹道）+ 路径粒子
 ```plain
 parallel {
@@ -182,7 +196,3 @@ message { text = "&7已发射: ${lastProjectile}" }
 - 在 `projectile` 模式中，仍会有原版的碰撞箱/物理与无敌帧影响。
 
 ---
-
-<div style="text-align: center; padding: 20px 0; color: #999; font-size: 12px; border-top: 1px solid #eee; margin-top: 50px;">
-  <p>📝 更新时间: 2025-11-12 03:23:56</p>
-</div>
