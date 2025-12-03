@@ -37,7 +37,8 @@ AreteAPI.register("message") { args, _ ->
 public class MessageStmt implements AreteJavaAPI.JavaStatement {
     private final String text;
     public MessageStmt(String text) { this.text = text; }
-    @Override public void execute(ExecutionContext ctx) {
+    @Override 
+    public void execute(ExecutionContext ctx) {
         Entity source = ctx.getSource();
         if (source instanceof Player) {
             Player player = (Player) source;
