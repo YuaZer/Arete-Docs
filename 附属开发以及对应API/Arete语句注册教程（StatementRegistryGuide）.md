@@ -1,107 +1,57 @@
-# 🧩 Arete 语句注册教程（Statement Registry Guide）
+# Arete 语句注册教程（Statement Registry Guide）
 
-下面这份教程基于你当前的接口与注册器实现：
+本页用最少步骤讲清楚「语句」的注册流程，帮助你把自定义逻辑接入 Arete。无需额外了解协程或底层细节。核心类路径示例：`io.github.yuazer.arete.core.StatementRegistry`、`io.github.yuazer.arete.api.AreteJavaAPI`。
 
-+ `Statement`/`Args` 接口
-+ `Statement.Factory` 工厂模式
-+ `StatementRegistry` 注册中心（支持别名、调试耗时输出、Box 会话记录）
+## 核心概念（30 秒读完）
+- **语句（Statement）**：可执行的最小脚本单元，实现 `Statement` 接口的 `execute` 方法即可。
+- **语句工厂（Factory）**：根据参数创建语句实例，注册时传入。
+- **注册器（StatementRegistry）**：保存所有语句，`AreteAPI.register(name, factory)` 会把语句放进去。
 
-目标：让你**快速、统一、可维护**地给 Arete DSL 增加新语句，并做好别名、调试、兼容与测试。
+## Kotlin 开发者：3 步完成注册
+1. **准备工厂**：实现 `Statement.Factory`，从 `args` 里取参并返回语句实例。
+2. **编写语句**：在 `execute` 中写具体逻辑，可通过 `ctx.source` 拿到触发者，通过 `ctx.vars` 存取变量。
+3. **调用注册**：在插件初始化时调用 `AreteAPI.register("语句名", factory)` 即可。
 
----
-
-## 1) 基础概念回顾
-### `Statement`
-```plain
-interface Statement {
-    suspend fun execute(ctx: ExecutionContext)
-
-    fun interface Factory {
-        fun create(args: Args, block: Statement?): Statement
-    }
-}
-```
-
-+ `execute(ctx)`：真正执行逻辑（可挂起，便于 `delay` / 切主线程等协程操作）。
-+ `Factory.create(args, block)`：从参数 + 子块构造语句实例。**parser 负责传入 block**（例如 `seq { ... }` 的 {...}）。
-
-### `Args`
-```plain
-fun interface Args {
-    fun get(key: String): String?
-    fun entries(): Map<String, String> = emptyMap()
-}
-```
-
-+ `get(key)`：读取单个参数。
-+ `entries()`：读取**完整键值对**（为一些“遍历入参”的语句预留，如 `var`/`meta` 等）。
-
----
-
-## 2) 最小可用注册示例
-### 2.1 写一个简单语句（例如：`message`）
-```plain
-// io/github/yuazer/arete/builtin/MessageStatement.kt
-package io.github.yuazer.arete.builtin
-
-import io.github.yuazer.arete.core.Args
-import io.github.yuazer.arete.core.ExecutionContext
-import io.github.yuazer.arete.core.Statement
-import org.bukkit.entity.Player
-
-class MessageStatement(private val text: String) : Statement {
-    override suspend fun execute(ctx: ExecutionContext) {
-        val p = ctx.playerOrNull() ?: return
-        io.github.yuazer.arete.utils.extension.onMain {
-            p.sendMessage(text)
+示例：给玩家发送一条自定义消息
+```kotlin
+// 注册自定义语句
+AreteAPI.register("message") { args, _ ->
+    val text = args.get("text") ?: "Hello, Arete!"
+    object : Statement {
+        override suspend fun execute(ctx: ExecutionContext) {
+            ctx.source.sendMessage(text)
         }
     }
+}
+```
+- 语句名是 `message`，脚本里写 `message text:"你好"` 即可调用。
+- `args.get("text")` 读取脚本参数；未提供时使用默认值。
 
-    companion object {
-        val factory = Statement.Factory { a, _ ->
-            MessageStatement(
-                text = a["text"] ?: a["t"] ?: error("message: missing text")
-            )
-        }
-        private operator fun Args.get(k: String) = get(k)
+## Java 开发者：用 AreteJavaAPI 免去包装
+1. **实现 JavaStatement**：只需同步接口 `void execute(ExecutionContext ctx)`。
+2. **实现 JavaFactory**：在 `create` 里读取 `JavaArgs` 并返回语句对象。
+3. **注册**：调用 `AreteJavaAPI.register("语句名", factory)`，内部会自动适配为 Kotlin 语句工厂。
+
+示例：Java 版消息语句
+```java
+public class MessageStmt implements AreteJavaAPI.JavaStatement {
+    private final String text;
+    public MessageStmt(String text) { this.text = text; }
+    @Override public void execute(ExecutionContext ctx) {
+        ctx.getSource(Player.class).sendMessage(text);
     }
 }
+
+// 注册
+AreteJavaAPI.register("message", args -> {
+    String text = args.getOrDefault("text", "Hello, Arete!");
+    return new MessageStmt(text);
+});
 ```
 
-### 2.2 注册到注册表
-```plain
-// 例如在 onEnable 时机
-StatementRegistry.register("message", MessageStatement.factory)
-StatementRegistry.register("msg",     MessageStatement.factory) // 别名
-```
+## 常见问题速记
+- **名字重复怎么办？** 后注册的同名语句会覆盖旧的，可用 `StatementRegistry.unregister(name)` 卸载。
+- **从脚本里拿参数？** Kotlin 用 `args.get("key")`，Java 用 `JavaArgs.get/ getOrDefault/ asMap`。
+- **执行时如何访问触发者？** 用 `ctx.source`（玩家或任意实体）；需要变量时操作 `ctx.vars`。
 
-运行期日志示例  
-`§7[Arete] §7Registered §fmessage §7§a✔ §8(0.17 ms)`
-
----
-
-## 3) 带子块的语句（如 `seq`/`ifchain`/`for`）
-**要点**：`Factory.create(args, block)` 的 `block` 就是**大括号里的子语句**。
-
-+ 有的语句**必须要子块**（如 `case` / `else` 的占位器）；
-+ 有的语句**可选子块**（如 `for {...} { child }`）。
-
-### 3.1 需要子块的工厂写法
-```plain
-val factory = Statement.Factory { a, block ->
-    requireNotNull(block) { "your-statement: missing block" }
-    YourBlockStatement(params..., block)
-}
-```
-
-### 3.2 可选子块的工厂写法
-```plain
-val factory = Statement.Factory { a, block ->
-    YourStatement(optional = block) // null 也能执行（比如仅初始化或仅赋值）
-}
-```
-
-
-
-> 更新: 2025-10-17 15:26:59  
-> 原文: <https://www.yuque.com/yuazer/blow95/shooalkoxgbvv08f>
+按照以上步骤就能把自定义语句接入 Arete，脚本里直接按语句名调用即可。
