@@ -68,9 +68,9 @@ move-accel {
 # dx/dy/dz 可直接写常量，也可用变量插值
 move-accel {
   mode = "self"  # 推进自己
-  dx = ${dashVec.x}
+  dx = ${dashVec_x}
   dy = 0.0
-  dz = ${dashVec.z}
+  dz = ${dashVec_z}
   accel = 0.15
   max = 1.8
   duration = 12
