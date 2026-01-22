@@ -1,6 +1,6 @@
 # 🎯 projectile — 发射投掷物 / 弹道实体（最新版）
 
-> 更新：2025-11-12 03:23:56
+> 更新：2025-12-18 12:28:00
 >
 > 适配实现：`ProjectileStatement`（支持 **原版投掷物** 与 **能量子弹（虚拟弹道）** 两种模式，新增穿透、命中延迟、能量弹路径存储与完成标记、无动画伤害等）
 
@@ -38,6 +38,7 @@
 | `damageType`           | String  |  否 |      `normal` | `normal` 走 `Entity#damage`（有动画/无敌帧）；其他值走**无动画纯扣血**（仍派发伤害事件） |
 | `hitStoreEntity`       | String  |  否 | `pjHitEntity` | 命中实体写入变量（仅非空写入）                                             |
 | `hitStorePos`          | String  |  否 |    `pjHitPos` | 命中瞬间/移除前的位置写入变量（仅命中实体时写入）                                   |
+| `hitStore` / `hitStoreVar` | String |  否 | — | 命中位置写入变量：命中实体写实体位置，命中方块写方块位置；未命中则不写 |
 | `hitRemoveDelayTicks`  | Int     |  否 |           `0` | 命中后延迟移除（tick）                                               |
 | `autoRemoveDelayTicks` | Int     |  否 |          `40` | 兜底自动移除（tick）；`energy` 模式用于推算最大飞行时长/距离                       |
 | `removeAtBlock`        | Boolean |  否 |        `true` | 命中方块是否移除（`projectile` 模式下）                                  |
@@ -171,7 +172,7 @@ message { text = "&7已发射: ${lastProjectile}" }
 3. **继承速度**：`inheritVelocity = true` 时叠加射手当前速度（更自然的奔跑射击）。
 4. **重力**：并非所有投掷物都可控，实际取决于实体实现与服务端。
 5. **穿透**：`pierce > 0` 时命中实体不移除，仅命中方块或到兜底计时移除。
-6. **命中写变量**：仅在**命中实体**时才写入 `hitStoreEntity` / `hitStorePos`。
+6. **命中写变量**：`hitStoreEntity` / `hitStorePos` 仅在**命中实体**时写入；`hitStore` 则在命中实体/方块时写入对应位置。
 7. **能量子弹**：
     - 不生成实体；每 `energyPeriod` tick 用速度推进位置。
     - 轨迹写入 `store`（`MutableList<Location>`）。
@@ -194,5 +195,6 @@ message { text = "&7已发射: ${lastProjectile}" }
 - `vx/vy/vz` 与 `towards` 同时存在时，以向量为准。
 - 事件可能取消或修改参数；注意监听器生命周期与并发。
 - 在 `projectile` 模式中，仍会有原版的碰撞箱/物理与无敌帧影响。
+- 数值参数（如 `vx/vy/vz`、`speed`、`spread`、`angleX/Y/Z`、`damage`、延迟 tick 等）支持 `${变量}` / `vars.xxx` / 表达式。
 
 ---

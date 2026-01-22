@@ -61,6 +61,7 @@
     * [🧭 move - 平滑移动](「Arete语句（Statement）」/move—平滑移动实体_插值位移（含缓动）.md)
     * [🚀 move-accel - 加速推进](「Arete语句（Statement）」/move-accel—加速度推进_追踪位移（限速可控）.md)
     * [🌀 nurbs - NURBS曲线](「Arete语句（Statement）」/nurbs—三维曲线采样语句（NURBS曲线生成）.md)
+    * [🔵 cycle - 圆形路径采样](「Arete语句（Statement）」/cycle—圆形路径采样语句.md)
   
   * **高级功能**
     * [🛡️ armorstand - 盔甲架](「Arete语句（Statement）」/️armorstand—生成与驱动隐形盔甲架（可穿物、可运动）.md)
@@ -95,4 +96,3 @@
   <p>Arete - 声明式脚本驱动的技能引擎</p>
   <p>QQ交流群：923280954</p>
 </div>
-

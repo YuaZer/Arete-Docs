@@ -23,7 +23,7 @@ if { cond = "<JavaScript表达式>" } {
 ```
 
 **条件表达式支持：**
-- 变量访问：`vars.变量名`
+- 变量访问：`vars.变量名` / `var.变量名` / `${变量名}`
 - 数值比较：`>`、`<`、`>=`、`<=`、`==`、`!=`
 - 逻辑运算：`&&`（与）、`||`（或）、`!`（非）
 - 字符串比较：`==`、`!=`
@@ -82,7 +82,7 @@ if { cond = "vars.hp < 20 && vars.level >= 30" } {
 
 ?> **简单条件用 `if`，复杂多分支用 [`ifchain`](ifchain—多分支条件执行_case…else链.md)**
 
-?> **条件表达式中必须使用 `vars.变量名`，而在其他语句参数中使用 `${变量名}`**
+?> **条件表达式中可使用 `vars.` / `var.` / `${}`，其他语句参数仍支持 `${变量名}`**
 
 ---
 
@@ -110,5 +110,5 @@ if { cond = "vars.target != null && vars.target.hp > 0" } {
 ---
 
 <div style="text-align: center; padding: 20px 0; color: #999; font-size: 12px; border-top: 1px solid #eee; margin-top: 50px;">
-  <p>📝 更新时间: 2025-10-17 10:15:03</p>
+  <p>📝 更新时间: 2025-12-18 12:28:00</p>
 </div>

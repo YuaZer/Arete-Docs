@@ -41,6 +41,7 @@ move-accel {
 + **目标选择**：
     - `target`（即代码里的 `targetVar`）优先；否则看 `mode`：`self / target / pointer`
     - `pointer` 通常由 `raycast { storeEntity = "..." }` 或自动指针写入
++ **参数支持变量**：`dx/dy/dz`、`accel/max/duration/stopAt/gravity` 支持 `${变量}` / `vars.xxx` / 表达式
 + **to vs dir**：必须**二选一**；都缺少则不执行
 + **限速逻辑**：当 `max > 0` 时才会生效；`max = 0` 表示**不限制**（可能过快）
 + **ArmorStand 专用**：采用**内存位置累加 → teleport**的方式，轨迹平滑、穿模友好
@@ -113,5 +114,5 @@ move-accel { target = "bullet"; dx = 0 dy = 0 dz = 1 accel = 0.12 max = 2.0 dura
 
 
 
-> 更新: 2025-10-17 15:05:51  
+> 更新: 2025-12-18 12:28:00  
 > 原文: <https://www.yuque.com/yuazer/blow95/li0fzlec65hin2un>

@@ -1,6 +1,6 @@
 # 🌌 particle — 粒子特效语句（最新版）
 
-> 更新时间：2025-12-08  
+> 更新时间：2025-12-18  
 > 适配代码：`ParticleStatement`
 > - 支持 **路径快照（SNAPSHOT）** 与 **流式路径（STREAM）** 两种模式
 > - 支持 **带 data 粒子**（如可调色 REDSTONE / DUST_COLOR_TRANSITION、SCULK_CHARGE、SHRIEK 等）
@@ -79,6 +79,7 @@ particle {
 | `at`       | String |  ❌ |       `@self` | **单点模式** 的坐标解析表达式；支持 `@self / @target / ${var} / world:x,y,z / ~x,~y,~z` |
 
 > 如果配置了 `path` 且能解析为路径，将优先走 **路径模式**；否则退回到 **单点模式**，使用 `at` 计算坐标。
+> `count/ox/oy/oz/speed` 支持 `${变量}` / `vars.xxx` / 表达式。
 
 ---
 
@@ -101,6 +102,8 @@ particle {
 - 流式标记：`stream` ≡ `live` ≡ `follow`（任意为真 → `STREAM`）
 - 完成标记：`pathDoneVar` ≡ `pathDone` ≡ `pathCompleteVar` ≡ `pathComplete`
 - 空闲停止：`pathIdleStopTicks` ≡ `pathIdleTicks` ≡ `idleTicks` ≡ `idle-ticks` ≡ `pathIdle`
+  
+> `path/step/ticks-per-point/pathIdleStopTicks` 支持 `${变量}` / `vars.xxx` / 表达式。
 
 ---
 

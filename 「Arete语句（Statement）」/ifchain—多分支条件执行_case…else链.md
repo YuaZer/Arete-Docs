@@ -43,7 +43,7 @@ ifchain {
 | `player` | 当前玩家名（若无玩家则为 `ctx.source.name`） |
 | `x` / `y` / `z` | 触发源（`ctx.source`）的坐标 |
 
-?> **注意**：条件中使用 `var.变量名`（无 s），而不是 `vars.变量名`
+?> **注意**：条件中可使用 `var.` / `vars.` / `${}`（三种写法都支持）
 
 ---
 
@@ -177,5 +177,5 @@ ifchain {
 ---
 
 <div style="text-align: center; padding: 20px 0; color: #999; font-size: 12px; border-top: 1px solid #eee; margin-top: 50px;">
-  <p>📝 更新时间: 2025-10-17 14:46:07</p>
+  <p>📝 更新时间: 2025-12-18 12:28:00</p>
 </div>
